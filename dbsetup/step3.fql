@@ -1,0 +1,7 @@
+CreateCollection({
+  name: "logins",
+  ttl_days: 365,
+  permissions: {
+    read: Collection("users")
+  }
+});

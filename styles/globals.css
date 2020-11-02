@@ -14,3 +14,10 @@ a {
 * {
   box-sizing: border-box;
 }
+
+:root {
+  --welcome-thickness: 6rem;
+  --desc-thickness: 3rem;
+  --footer-thickness: 6rem;
+  --stats-label-size: 0.8rem;
+}

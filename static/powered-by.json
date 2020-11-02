@@ -1,0 +1,30 @@
+[{
+  "href": "https://nextjs.org",
+  "img": "/nextjs.svg",
+  "alt": "Next.js Logo",
+  "styles": {
+    "height": "3rem"
+  }
+}, {
+  "href": "https://vercel.com",
+  "img": "/vercel.svg",
+  "alt": "Vercel Logo",
+  "styles": {
+    "height": "1.5rem"
+  }
+}, {
+  "href": "https://fauna.com/",
+  "img": "/fauna.svg",
+  "alt": "FaunaDB Logo",
+  "styles": {
+    "height": "4rem"
+  }
+}, {
+  "href": "https://magic.link",
+  "img": "/magic.svg",
+  "alt": "Magic.link Logo",
+  "styles": {
+    "height": "2.5rem",
+    "transform": "translateY(-1px)"
+  }
+}]

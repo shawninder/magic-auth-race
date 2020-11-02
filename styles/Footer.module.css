@@ -1,0 +1,19 @@
+.footer {
+  border-top: 1px solid #eaeaea;
+  line-height: var(--footer-thickness);
+}
+
+.footer img {
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.footer a:not(:first-of-type) {
+  margin-left: 1rem;
+}
+.footer a:last-of-type {
+  margin-left: 0;
+}
+.footer a:last-of-type::before {
+  content: ' and ';
+}
