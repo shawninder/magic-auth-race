@@ -1,3 +1,5 @@
+import styles from '../styles/Leaderboard.module.css'
+
 function LoginStats ({ logins }) {
   const stats = logins.reduce((_stats, time) => {
     const newCount = _stats.count + 1
@@ -22,78 +24,66 @@ function LoginStats ({ logins }) {
   }
 
   return (
-    <div>
-      <svg>
-        {logins.map((time, idx) => {
-          const transform = `translateX(${100 * time / stats.max}%)`
-          return (
-            <path
-              key={idx}
-              d='M1,0L1,100'
-              stroke='rgba(255, 255, 255, 0.3)'
-              strokeWidth='2'
-              style={{
-                transform
-              }}
-            />
-          )
-        })}
-        <Smiley
-          txt='😀'
-          x={`${toX(stats.min)}%`}
-          y={20}
-        />
-        <text
-          x={`${toX(stats.min)}%`}
-          y={20}
-          fill='white'
-          transform='translate(8, 6)'
-        >
-          {Math.round(stats.min)}ms (High score!)
-        </text>
-        <Smiley
-          txt='😐'
-          x={`${toX(stats.avg)}%`}
-          y={40}
-        />
-        <text
-          x={`${toX(stats.avg)}%`}
-          y={40}
-          fill='white'
-          transform='translate(0, 20)'
-          textAnchor='middle'
-        >
-          {Math.round(stats.avg)}ms (average)
-        </text>
-        <Smiley
-          txt='🤫'
-          x={`${toX(stats.max)}%`}
-          y={60}
-          correction={{
-            x: -10
-          }}
-        />
-        <text
-          x={`${toX(stats.max)}%`}
-          y={60}
-          fill='white'
-          transform='translate(-20, 4)'
-          textAnchor='end'
-        >
-          {Math.round(stats.max)}ms
-        </text>
-      </svg>
-      <style jsx>
-        {`
-          svg {
-            width: 100%;
-            min-width: 300px;
-            height: 100px;
-            background: black;
-          }
-        `}
-      </style>
-    </div>
+    <svg className={styles.leaderboard}>
+      {logins.map((time, idx) => {
+        const transform = `translateX(${100 * time / stats.max}%)`
+        return (
+          <path
+            key={idx}
+            d='M1,0L1,100'
+            stroke='rgba(255, 255, 255, 0.3)'
+            strokeWidth='2'
+            style={{
+              transform
+            }}
+          />
+        )
+      })}
+      <Smiley
+        txt='😀'
+        x={`${toX(stats.min)}%`}
+        y={20}
+      />
+      <text
+        x={`${toX(stats.min)}%`}
+        y={20}
+        fill='white'
+        transform='translate(8, 6)'
+      >
+        {Math.round(stats.min)}ms (High score!)
+      </text>
+      <Smiley
+        txt='😐'
+        x={`${toX(stats.avg)}%`}
+        y={40}
+      />
+      <text
+        x={`${toX(stats.avg)}%`}
+        y={40}
+        fill='white'
+        transform='translate(0, 20)'
+        textAnchor='middle'
+      >
+        {Math.round(stats.avg)}ms (average)
+      </text>
+      <Smiley
+        txt='🤫'
+        x={`${toX(stats.max)}%`}
+        y={60}
+        correction={{
+          x: -10
+        }}
+      />
+      <text
+        x={`${toX(stats.max)}%`}
+        y={60}
+        fill='white'
+        transform='translate(-20, 4)'
+        textAnchor='end'
+      >
+        {Math.round(stats.max)}ms
+      </text>
+    </svg>
   )
 }
 export default LoginStats

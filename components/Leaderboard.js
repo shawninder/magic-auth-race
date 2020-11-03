@@ -6,7 +6,7 @@ import styles from '../styles/Leaderboard.module.css'
 
 function Leaderboard ({ initialized, loading, logins }) {
   return (
-    <div className={styles.leaderboard}>
+    <div className={styles.container}>
       <Condition
         ready={initialized}
         fallback={<LeaderboardLoader />}

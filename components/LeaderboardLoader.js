@@ -1,7 +1,7 @@
+import styles from '../styles/Leaderboard.module.css'
+
 export default function LeaderboardLoader () {
   return (
-    <p style={{ fontStyle: 'italic' }}>
-      Loading...
-    </p>
+    <div className={styles.leaderboard} />
   )
 }
