@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react'
 import { Magic } from 'magic-sdk'
 
+import styles from '../styles/Login.module.css'
+
 export default function Login ({
   login,
   disabled,
@@ -9,7 +11,7 @@ export default function Login ({
   on
 }) {
   const [loggingIn, setLoggingIn] = useState(false)
-  const [saving, setSaving] = useState(false)
+  const [, setSaving] = useState(false)
   const emailRef = useRef(null)
 
   async function logIn (event) {
@@ -117,6 +119,7 @@ export default function Login ({
       <form onSubmit={logIn}>
         <label>
           <input
+            className={styles.input}
             name='email'
             type='email'
             placeholder='Your email'
@@ -126,21 +129,42 @@ export default function Login ({
           />
         </label>
         <br />
-        <button type='submit' disabled={loggedIn || disabled || loggingIn}>
+        <button
+          className={styles.input}
+          type='submit'
+          disabled={loggedIn || disabled || loggingIn}
+          style={{
+            visibility: (loggedIn || disabled) ? 'hidden' : 'visible'
+          }}
+        >
           Login to join the race!
         </button>
       </form>
       <form
         onSubmit={logIn}
       >
-        <button type='submit' disabled={!loggedIn || disabled || loggingIn}>
+        <button
+          className={styles.input}
+          type='submit'
+          disabled={!loggedIn || disabled || loggingIn}
+          style={{
+            visibility: (!loggedIn || disabled || loggingIn) ? 'hidden' : 'visible'
+          }}
+        >
           Try Again (Already logged in)
         </button>
       </form>
       <form
         onSubmit={logout}
       >
-        <button type='submit' disabled={!loggedIn || disabled || loggingIn}>
+        <button
+          className={styles.input}
+          type='submit'
+          disabled={!loggedIn || disabled || loggingIn}
+          style={{
+            visibility: (!loggedIn || disabled || loggingIn) ? 'hidden' : 'visible'
+          }}
+        >
           Logout
         </button>
       </form>
