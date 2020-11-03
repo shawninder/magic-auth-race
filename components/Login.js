@@ -114,16 +114,6 @@ export default function Login ({
 
   return (
     <section>
-      <pre>
-        {JSON.stringify({
-          state: {
-            loggingIn,
-            loggedIn,
-            saving,
-            disabled
-          }
-        }, null, 2)}
-      </pre>
       <form onSubmit={logIn}>
         <label>
           <input

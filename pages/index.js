@@ -4,25 +4,23 @@ import Leaderboard from '../components/Leaderboard'
 import Login from '../components/Login'
 import Footer from '../components/Footer'
 
-import useUser from '../use/user'
 import useLogins from '../use/logins'
 
 import styles from '../styles/Home.module.css'
 
 export default function Home () {
-  const { user } = useUser()
   const { logins, loading: loginsLoading, mutate: mutateLogins } = useLogins()
 
   const [loggedIn, setLoggedIn] = useState(false)
   const [loginErr, setLoginErr] = useState({})
 
-  const [totalTime, setTotalTime] = useState(null)
-
   const title = 'Magic Auth Race!'
+
+  const loginErrors = Object.keys(loginErr)
 
   function addLogin (login) {
     mutateLogins((logins) => {
-      logins.concat([login])
+      return logins.concat([login])
     }, false)
   }
 
@@ -59,7 +57,6 @@ export default function Home () {
             on={{
               login: ({ totalTime }) => {
                 console.log('Logged in')
-                setTotalTime(totalTime)
                 addLogin({
                   totalTime
                 })
@@ -73,21 +70,18 @@ export default function Home () {
               err: setLoginErr
             }}
           />
-          <h3>User</h3>
-          <pre>{JSON.stringify(user, null, 2)}</pre>
-          <h3>Time</h3>
-          <pre>
-            {JSON.stringify({
-              totalTime
-            }, null, 2)}
-          </pre>
-          <h3>Errors</h3>
-          <pre>
-            {Object.keys(loginErr).map((key) => {
-              const err = loginErr[key]
-              return `${key}: ${err instanceof Error ? err.toString() : JSON.stringify(err)}`
-            }).join('\n')}
-          </pre>
+          {loginErrors.length > 0 ? (
+            <>
+              <h3>Errors</h3>
+              <pre>
+                {loginErrors.map((key) => {
+                  const err = loginErr[key]
+                  return `${key}: ${err instanceof Error ? err.toString() : JSON.stringify(err)}`
+                }).join('\n')}
+              </pre>
+              <pre>{JSON.stringify(loginErr, null, 2)}</pre>
+            </>
+          ) : null}
         </section>
       </main>
 
