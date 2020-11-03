@@ -10,7 +10,7 @@ npm run
 
 ## Seeding the Database
 
-Execute [steps](steps/step*.fql) in order (in the [webshell](https://dashboard.fauna.com/webshell/@db/magic-auth-perf) or elsewhere)
+Execute [steps](steps/step*.fql) in order (in the [webshell](https://dashboard.fauna.com/webshell/@db/magic-auth-race) or elsewhere)
 
 ## Environment Variables
 

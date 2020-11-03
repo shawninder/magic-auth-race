@@ -37,7 +37,6 @@ export default function Home () {
         <meta httpEquiv='Content-Type' content='text/html; charset=utf-8' />
         <meta name='language' content='English' />
         <meta name='author' content='Shawn Freyssonnet-Inder <shawninder@gmail.com>' />
-        <meat name='image' href='/magic-auth-perf.svg' />
       </Head>
 
       <main className={styles.main}>
