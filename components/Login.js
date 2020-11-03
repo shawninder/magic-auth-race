@@ -45,9 +45,9 @@ export default function Login ({
         setLoggedIn(true)
         setLoggingIn(false)
         time.endTime = Date.now()
-        time.totalTime = time.endTime - time.startTime
+        time.duration = time.endTime - time.startTime
         const login = await res.text()
-        on.login && on.login({ login, totalTime: time.totalTime })
+        on.login && on.login({ login, duration: time.duration })
       } else {
         setLoggingIn(false)
         return on.err && on.err({
@@ -70,7 +70,7 @@ export default function Login ({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${auth.didToken}`
         },
-        body: JSON.stringify({ email, t: time.totalTime })
+        body: JSON.stringify({ email, t: time.duration })
       })
 
       if (res.status === 201) {

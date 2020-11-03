@@ -55,11 +55,9 @@ export default function Home () {
             loggedIn={loggedIn}
             setLoggedIn={setLoggedIn}
             on={{
-              login: ({ totalTime }) => {
+              login: ({ duration }) => {
                 console.log('Logged in')
-                addLogin({
-                  totalTime
-                })
+                addLogin(duration)
               },
               logout: () => {
                 console.log('Logged out')
