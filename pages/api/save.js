@@ -5,13 +5,15 @@ import { Login } from '../../models/login'
 const handlers = {
   POST: async (req, res) => {
     const { email, token } = await getSession(req)
+    const { email: declared, t } = req.body
+    if (email === declared) {
+      const loginModel = new Login(token)
+      const login = await loginModel.createLogin({ email, t })
 
-    const { totalTime } = req.body
-
-    const loginModel = new Login(token)
-    const login = await loginModel.createLogin({ email, totalTime })
-
-    res.status(201).send(login)
+      return res.status(201).send(login)
+    } else {
+      return res.status(403)
+    }
   }
 }
 

@@ -2,14 +2,18 @@ import Condition from '../components/Condition'
 import LeaderboardLoader from '../components/LeaderboardLoader'
 import LoginStats from '../components/LoginStats'
 
-function Leaderboard ({ initialized, loading, stats }) {
+import styles from '../styles/Leaderboard.module.css'
+
+function Leaderboard ({ initialized, loading, logins }) {
   return (
-    <Condition
-      ready={initialized}
-      fallback={<LeaderboardLoader />}
-    >
-      <LoginStats {...stats} />
-    </Condition>
+    <div className={styles.leaderboard}>
+      <Condition
+        ready={initialized}
+        fallback={<LeaderboardLoader />}
+      >
+        <LoginStats logins={logins} />
+      </Condition>
+    </div>
   )
 }
 

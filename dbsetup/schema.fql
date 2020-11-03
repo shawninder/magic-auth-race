@@ -1,0 +1,29 @@
+# Run steps sequentially as separate transactions
+
+# Step 1
+CreateCollection({ name: 'logins' })
+
+# Step 2
+CreateIndex({
+  name: 'all_logins',
+  source: Collection('logins'),
+  values: [{
+    field: ['data', 't']
+  }]
+})
+
+# Step 3
+CreateIndex({
+  name: 'logins_by_email',
+  source: Collection('logins'),
+  terms: [{
+    field: ['data', 'email']
+  }, {
+    field: ['data', 't']
+  }],
+  values: [{
+    field: ['data', 'email']
+  }, {
+    field: ['data', 't']
+  }]
+})

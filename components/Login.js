@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import { Magic } from 'magic-sdk'
 
 export default function Login ({
-  user,
+  login,
   disabled,
   loggedIn,
   setLoggedIn,
@@ -12,7 +12,7 @@ export default function Login ({
   const [saving, setSaving] = useState(false)
   const emailRef = useRef(null)
 
-  async function login (event) {
+  async function logIn (event) {
     event.preventDefault()
     const email = emailRef.current.value
 
@@ -46,8 +46,8 @@ export default function Login ({
         setLoggingIn(false)
         time.endTime = Date.now()
         time.totalTime = time.endTime - time.startTime
-        const user = await res.text()
-        on.login && on.login({ user, totalTime: time.totalTime })
+        const login = await res.text()
+        on.login && on.login({ login, totalTime: time.totalTime })
       } else {
         setLoggingIn(false)
         return on.err && on.err({
@@ -70,7 +70,7 @@ export default function Login ({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${auth.didToken}`
         },
-        body: JSON.stringify({ totalTime: time.totalTime })
+        body: JSON.stringify({ email, t: time.totalTime })
       })
 
       if (res.status === 201) {
@@ -116,12 +116,15 @@ export default function Login ({
     <section>
       <pre>
         {JSON.stringify({
-          loggingIn,
-          loggedIn,
-          saving
+          state: {
+            loggingIn,
+            loggedIn,
+            saving,
+            disabled
+          }
         }, null, 2)}
       </pre>
-      <form onSubmit={login}>
+      <form onSubmit={logIn}>
         <label>
           <input
             name='email'
@@ -129,7 +132,7 @@ export default function Login ({
             placeholder='Your email'
             ref={emailRef}
             disabled={loggedIn || disabled || loggingIn}
-            defaultValue={user && user.email}
+            defaultValue={(login && login.email) || ''}
           />
         </label>
         <br />
@@ -138,7 +141,7 @@ export default function Login ({
         </button>
       </form>
       <form
-        onSubmit={login}
+        onSubmit={logIn}
       >
         <button type='submit' disabled={!loggedIn || disabled || loggingIn}>
           Try Again (Already logged in)

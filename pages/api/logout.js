@@ -1,16 +1,16 @@
 import { magic } from '../../lib/magic'
 import { getSession, removeSession } from '../../lib/auth-cookies'
 import { createHandlers } from '../../lib/rest-utils'
-import { User } from '../../models/user'
+import { Login } from '../../models/login'
 
 const handlers = {
   GET: async (req, res) => {
     const { token, issuer } = await getSession(req)
-    const userModel = new User()
+    const loginModel = new Login()
 
     await Promise.all([
       magic.users.logoutByIssuer(issuer),
-      userModel.invalidateFaunaDBToken(token)
+      loginModel.invalidateFaunaDBToken(token)
     ])
 
     removeSession(res)

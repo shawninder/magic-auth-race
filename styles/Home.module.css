@@ -17,7 +17,6 @@
 .welcome {
   margin: 0;
   line-height: var(--welcome-thickness);
-  font-size: 4rem;
 }
 
 .desc {

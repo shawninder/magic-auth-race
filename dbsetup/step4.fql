@@ -1,4 +1,0 @@
-CreateIndex({
-  name: "all_logins",
-  source: Collection("logins")
-})
