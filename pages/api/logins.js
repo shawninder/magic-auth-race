@@ -9,6 +9,7 @@ const handlers = {
       res.status(200).send(logins && logins.data)
     } catch (ex) {
       console.error('Unable to get logins', ex)
+      res.status(500).send('Oops')
     }
   }
 }
