@@ -1,4 +1,5 @@
 .container {
+  position: relative;
   width: 100%;
   min-width: 300px;
   height: 100px;
@@ -7,4 +8,28 @@
 }
 .leaderboard {
   width: 100%;
+}
+.container svg {
+  width: 100%;
+}
+.highlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: translateX(0);
+  transition: transform 60s linear;
+}
+.highlight div {
+  width: 10px;
+  height: 120px;
+  background: rgba(200, 0, 0, 0.3);
+  border-radius: 8px;
+  border: 1px solid crimson;
+  transform: translate(-50%, -10px);
+}
+
+.highlight p {
+  text-align: left;
+  transform: translateY(-20px);
 }

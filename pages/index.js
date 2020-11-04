@@ -14,6 +14,10 @@ export default function Home () {
   const [loggedIn, setLoggedIn] = useState(false)
   const [loginErr, setLoginErr] = useState({})
 
+  const [highlight, setHighlight] = useState(0)
+  const [label, setLabel] = useState(null)
+  const [animate, setAnimate] = useState(false)
+
   const title = 'Magic Auth Race!'
 
   const loginErrors = Object.keys(loginErr)
@@ -56,6 +60,9 @@ export default function Home () {
             initialized={logins && !loginsLoading}
             loading={loginsLoading}
             logins={logins}
+            highlight={highlight}
+            label={label}
+            animate={animate}
           />
         </section>
         <section className={styles.login}>
@@ -63,17 +70,39 @@ export default function Home () {
             loggedIn={loggedIn}
             setLoggedIn={setLoggedIn}
             on={{
+              startTime: () => {
+                setHighlight(0)
+                setAnimate(false)
+                setLabel('')
+                setTimeout(() => {
+                  setAnimate(true)
+                  setTimeout(() => {
+                    setHighlight('100%')
+                  }, 10)
+                }, 10)
+              },
               login: ({ duration }) => {
                 console.log('Logged in')
+                setHighlight(duration)
+                setAnimate(false)
+                setLabel(`Your time: ${duration}ms`)
                 addLogin(duration)
               },
               logout: () => {
+                setHighlight(0)
+                setAnimate(false)
+                setLabel('')
                 console.log('Logged out')
               },
               save: () => {
                 console.log('Saved')
               },
-              err: setLoginErr
+              err: (err) => {
+                setHighlight(0)
+                setAnimate(false)
+                setLabel('')
+                setLoginErr(err)
+              }
             }}
           />
           {loginErrors.length > 0 ? (

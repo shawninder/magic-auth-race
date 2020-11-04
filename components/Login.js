@@ -24,10 +24,13 @@ export default function Login ({
       startTime: Date.now()
     }
 
+    on.startTime && on.startTime(time.startTime)
+
     const auth = { magic: null, didToken: null }
     try {
       auth.magic = new Magic(process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY)
       auth.didToken = await auth.magic.auth.loginWithMagicLink({ email })
+      on.token && on.token(auth.didToken)
     } catch (ex) {
       setLoggingIn(false)
       return on.err && on.err({ 'Magic login error': ex })
@@ -91,6 +94,7 @@ export default function Login ({
       setSaving(false)
       return on.err && on.err('Save exception', err)
     }
+    on.done && on.done({ ...time })
   }
 
   async function logout (event) {
