@@ -130,17 +130,14 @@ function Home ({ ssrLogins }) {
 
 function getDomain () {
   if (process.env.NODE_ENV === 'production') {
-    console.error('===PROD')
     return 'https://magic-auth-race.vercel.com'
   } else {
-    console.error('===NOT PROD')
     return 'http://localhost:3000'
   }
 }
 
 function toAbsoluteUrl (relativeUrl) {
   const url = `${getDomain()}${relativeUrl}`
-  console.error('===url', url)
   return url
 }
 
