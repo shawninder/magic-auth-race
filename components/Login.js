@@ -138,7 +138,7 @@ export default function Login ({
           type='submit'
           disabled={loggedIn || disabled || loggingIn}
           style={{
-            visibility: (loggedIn || disabled) ? 'hidden' : 'visible'
+            opacity: (loggedIn || disabled) ? 0 : 1
           }}
         >
           Login to join the race!
@@ -152,7 +152,7 @@ export default function Login ({
           type='submit'
           disabled={!loggedIn || disabled || loggingIn}
           style={{
-            visibility: (!loggedIn || disabled || loggingIn) ? 'hidden' : 'visible'
+            opacity: (!loggedIn || disabled || loggingIn) ? 0 : 1
           }}
         >
           Try Again (Already logged in)
@@ -166,7 +166,7 @@ export default function Login ({
           type='submit'
           disabled={!loggedIn || disabled || loggingIn}
           style={{
-            visibility: (!loggedIn || disabled || loggingIn) ? 'hidden' : 'visible'
+            opacity: (!loggedIn || disabled || loggingIn) ? 0 : 1
           }}
         >
           Logout

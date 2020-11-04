@@ -3,4 +3,5 @@
   max-width: 300px;
   padding: 8px 6px;
   font-size: larger;
+  transition: opacity 400ms easeIn;
 }
