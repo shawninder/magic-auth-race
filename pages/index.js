@@ -130,7 +130,7 @@ function Home ({ ssrLogins }) {
 
 function getDomain () {
   if (process.env.NODE_ENV === 'production') {
-    return 'https://magic-auth-race.vercel.com'
+    return 'https://magic-auth-race.vercel.app'
   } else {
     return 'http://localhost:3000'
   }
