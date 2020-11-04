@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import jsonFetcher from '../lib/jsonFetcher'
 import Head from 'next/head'
 import Leaderboard from '../components/Leaderboard'
 import Login from '../components/Login'
@@ -8,8 +9,8 @@ import useLogins from '../use/logins'
 
 import styles from '../styles/Home.module.css'
 
-export default function Home () {
-  const { logins, loading: loginsLoading, mutate: mutateLogins } = useLogins()
+function Home ({ ssrLogins }) {
+  const { logins, loading: loginsLoading, mutate: mutateLogins } = useLogins(ssrLogins)
 
   const [loggedIn, setLoggedIn] = useState(false)
   const [loginErr, setLoginErr] = useState({})
@@ -126,3 +127,24 @@ export default function Home () {
     </div>
   )
 }
+
+function getDomain () {
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://magic-auth-race.vercel.com'
+  } else {
+    return 'http://localhost:3000'
+  }
+}
+
+function toAbsoluteUrl (relativeUrl) {
+  return `${getDomain()}${relativeUrl}`
+}
+
+Home.getInitialProps = async () => {
+  const ssrLogins = await jsonFetcher()(toAbsoluteUrl('/api/logins'))
+
+  return {
+    ssrLogins
+  }
+}
+export default Home

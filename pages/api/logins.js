@@ -1,5 +1,5 @@
-import { createHandlers } from '../../../lib/rest-utils'
-import { Login } from '../../../models/login'
+import { createHandlers } from '../../lib/rest-utils'
+import { Login } from '../../models/login'
 
 const handlers = {
   GET: async (req, res) => {
