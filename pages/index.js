@@ -107,7 +107,7 @@ function Home ({ ssrLogins }) {
             }}
           />
           {loginErrors.length > 0 ? (
-            <>
+            <div className={styles.errors}>
               <h3>Errors</h3>
               <pre>
                 {loginErrors.map((key) => {
@@ -116,7 +116,7 @@ function Home ({ ssrLogins }) {
                 }).join('\n')}
               </pre>
               <pre>{JSON.stringify(loginErr, null, 2)}</pre>
-            </>
+            </div>
           ) : null}
         </section>
       </main>

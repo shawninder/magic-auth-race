@@ -23,3 +23,8 @@
 .leaderboard {
   height: 200px;
 }
+
+.errors {
+  border: 1px dashed crimson;
+  background: rgba(203, 0, 60, 0.6);
+}
