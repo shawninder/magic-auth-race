@@ -1,5 +1,7 @@
 import styles from '../styles/Leaderboard.module.css'
 
+const secondsLabel = 's'
+
 function LoginStats ({ logins }) {
   const stats = logins.reduce((_stats, time) => {
     const newCount = _stats.count + 1
@@ -21,6 +23,9 @@ function LoginStats ({ logins }) {
 
   function toX (val) {
     return 100 * val / stats.max
+  }
+  function toSec (ms) {
+    return Math.round(ms / 10) / 100
   }
 
   return (
@@ -48,40 +53,58 @@ function LoginStats ({ logins }) {
         x={`${toX(stats.min)}%`}
         y={20}
         fill='white'
-        transform='translate(8, 6)'
+        transform='translate(12, 5)'
       >
-        {Math.round(stats.min)}ms (High score!)
+        {toSec(stats.min)}{secondsLabel}
       </text>
+      <text
+        x={`${toX(stats.min)}%`}
+        y={20}
+        fill='chartreuse'
+        transform='translate(65, 5)'
+      >
+        High score!
+      </text>
+      High score!
       <Smiley
         txt='😐'
         x={`${toX(stats.avg)}%`}
-        y={40}
+        y={45}
       />
       <text
         x={`${toX(stats.avg)}%`}
-        y={40}
+        y={45}
         fill='white'
         transform='translate(0, 20)'
         textAnchor='middle'
       >
-        {Math.round(stats.avg)}ms (average)
+        {toSec(stats.avg)}{secondsLabel}
+      </text>
+      <text
+        x={`${toX(stats.avg)}%`}
+        y={45}
+        fill='gold'
+        transform='translate(30, 20)'
+        textAnchor='start'
+      >
+        (world average)
       </text>
       <Smiley
         txt='🤫'
         x={`${toX(stats.max)}%`}
-        y={60}
+        y={80}
         correction={{
           x: -10
         }}
       />
       <text
         x={`${toX(stats.max)}%`}
-        y={60}
-        fill='white'
-        transform='translate(-20, 4)'
+        y={80}
+        fill='tomato'
+        transform='translate(-20, 5)'
         textAnchor='end'
       >
-        {Math.round(stats.max)}ms
+        {toSec(stats.max)}{secondsLabel}...
       </text>
     </svg>
   )
