@@ -14,7 +14,7 @@ const handlers = {
   }
 }
 
-export default function loginStats (req, res) {
+export default function logins (req, res) {
   const handler = createHandlers(handlers)
   return handler(req, res)
 }
