@@ -25,7 +25,7 @@ function Home ({ ssrLogins }) {
 
   function addLogin (login) {
     mutateLogins((logins) => {
-      return logins.concat([login])
+      return logins && logins.concat([login])
     }, false)
   }
 
