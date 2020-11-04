@@ -78,7 +78,7 @@ export default function Home () {
                   setAnimate(true)
                   setTimeout(() => {
                     setHighlight('100%')
-                  }, 10)
+                  }, 200)
                 }, 10)
               },
               login: ({ duration }) => {
