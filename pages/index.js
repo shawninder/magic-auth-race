@@ -35,6 +35,14 @@ export default function Home () {
         <meta httpEquiv='Content-Type' content='text/html; charset=utf-8' />
         <meta name='language' content='English' />
         <meta name='author' content='Shawn Freyssonnet-Inder <shawninder@gmail.com>' />
+        <meta name='twitter:card' content='summary_large_image' />
+        <meta name='twitter:creator' content='@shawn_inder' />
+        <meta name='twitter:title' content='Magic Auth race' />
+        <meta name='og:title' content='Magic Auth race' />
+        <meta name='twitter:description' content='How fast is passwordless login? Log in to join the race!' />
+        <meta name='og:description' content='How fast is passwordless login? Log in to join the race!' />
+        <meta name='twitter:image' content='/magic-auth-race-screenshot.png' />
+        <meta name='og:image' content='/magic-auth-race-screenshot.png' />
       </Head>
 
       <main className={styles.main}>
