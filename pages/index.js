@@ -141,7 +141,8 @@ function toAbsoluteUrl (relativeUrl) {
 }
 
 Home.getInitialProps = async () => {
-  const ssrLogins = await jsonFetcher()(toAbsoluteUrl('/api/logins'))
+  const fetcher = jsonFetcher()
+  const ssrLogins = await fetcher(toAbsoluteUrl('/api/logins'))
 
   return {
     ssrLogins

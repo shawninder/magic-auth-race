@@ -8,8 +8,7 @@ const handlers = {
       const logins = await loginModel.getAll()
       res.status(200).send(logins && logins.data)
     } catch (ex) {
-      console.error('Unable to get logins', ex)
-      res.status(500).send('Oops')
+      res.status(500).send({ ex: ex.ToString(), logins: [] })
     }
   }
 }
