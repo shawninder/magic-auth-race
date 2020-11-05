@@ -5,6 +5,8 @@ import Leaderboard from '../components/Leaderboard'
 import Login from '../components/Login'
 import Footer from '../components/Footer'
 
+import { toAbsoluteUrl } from '../utils'
+
 import useLogins from '../use/logins'
 
 import styles from '../styles/Home.module.css'
@@ -128,23 +130,9 @@ function Home ({ ssrLogins }) {
   )
 }
 
-function getDomain () {
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://magic-auth-race.vercel.app'
-  } else {
-    return 'http://localhost:3000'
-  }
-}
-
-function toAbsoluteUrl (relativeUrl) {
-  const url = `${getDomain()}${relativeUrl}`
-  return url
-}
-
 Home.getInitialProps = async () => {
   const fetcher = jsonFetcher()
   const ssrLogins = await fetcher(toAbsoluteUrl('/api/logins'))
-  console.error('===ssrLogins', ssrLogins)
   return {
     ssrLogins
   }
