@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import jsonFetcher from '../lib/jsonFetcher'
-import Head from 'next/head'
+import Head from '../components/head'
 import Leaderboard from '../components/Leaderboard'
 import Login from '../components/Login'
 import Footer from '../components/Footer'
@@ -34,23 +34,19 @@ function Home ({ ssrLogins }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>{title}</title>
-        <link rel='icon' href='/favicon.ico' />
-        <meta name='theme-color' content='white' />
-        <meta name='title' content={title} />
-        <meta name='description' content='How fast is passwordless login? Login to join the race!' />
-        <meta name='robots' content='index, follow' />
         <meta httpEquiv='Content-Type' content='text/html; charset=utf-8' />
         <meta name='language' content='English' />
-        <meta name='author' content='Shawn Freyssonnet-Inder <shawninder@gmail.com>' />
+        <title>{title}</title>
+        <meta name='description' content='How fast is passwordless login? Login to join the race!' />
+        <meta name='robots' content='index, follow' />
         <meta name='twitter:card' content='summary_large_image' />
-        <meta name='twitter:creator' content='@shawn_inder' />
         <meta name='twitter:title' content='Magic Auth race' />
         <meta name='og:title' content='Magic Auth race' />
         <meta name='twitter:description' content='How fast is passwordless login? Log in to join the race!' />
         <meta name='og:description' content='How fast is passwordless login? Log in to join the race!' />
         <meta name='twitter:image' content='https://magic-auth-race.vercel.app/magic-auth-race-screenshot.png' />
         <meta name='og:image' content='https://magic-auth-race.vercel.app/magic-auth-race-screenshot.png' />
+        <meta name='title' content={title} />
       </Head>
 
       <main className={styles.main}>
