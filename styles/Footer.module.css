@@ -1,19 +1,17 @@
 .footer {
-  border-top: 1px solid #eaeaea;
-  line-height: var(--footer-thickness);
+  border-top: 4px solid #eaeaea;
+  font-size: 16px;
 }
 
-.footer img {
-  margin-left: 0.5rem;
+.footer h4 {
+  margin-top: 1rem;
+}
+
+.footer a {
+  display: inline-block;
   vertical-align: middle;
 }
 
 .footer a:not(:first-of-type) {
   margin-left: 1rem;
-}
-.footer a:last-of-type {
-  margin-left: 0;
-}
-.footer a:last-of-type::before {
-  content: ' and ';
 }

@@ -1,7 +1,28 @@
+.label {
+  background: ghostwhite;
+}
 .input {
   width: 100%;
   max-width: 300px;
   padding: 8px 6px;
-  font-size: larger;
-  transition: opacity 400ms easeIn;
+  opacity: 1;
+  transition: opacity 600ms ease;
+  font-size: smaller;
+}
+
+.bgContainer {
+  position: relative;
+}
+
+.bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 16px 6px;
+  text-align: center;
+  vertical-align: center;
+  opacity: 0;
+  transition: opacity 600ms ease;
 }

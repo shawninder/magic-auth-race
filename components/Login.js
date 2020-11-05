@@ -3,6 +3,9 @@ import { Magic } from 'magic-sdk'
 
 import styles from '../styles/Login.module.css'
 
+const loggedInMsg = 'Logged in'
+const loggingInMsg = 'Logging in...'
+
 export default function Login ({
   login,
   disabled,
@@ -119,11 +122,13 @@ export default function Login ({
   }
 
   return (
-    <section>
-      <form onSubmit={logIn}>
-        <label>
+    <section className={styles.section}>
+      <form
+        onSubmit={logIn}
+      >
+        <label className={`${styles.label} nes-field`}>
           <input
-            className={styles.input}
+            className={`${styles.input} nes-input`}
             name='email'
             type='email'
             placeholder='Your email'
@@ -133,36 +138,58 @@ export default function Login ({
           />
         </label>
         <br />
-        <button
-          className={styles.input}
-          type='submit'
-          disabled={loggedIn || disabled || loggingIn}
-          style={{
-            opacity: (loggedIn || disabled) ? 0 : 1
-          }}
+        <div
+          className={styles.bgContainer}
         >
-          Login to join the race!
-        </button>
+          <p
+            className={styles.bg}
+            style={{
+              opacity: (loggedIn && !disabled && !loggingIn) ? 1 : 0
+            }}
+          >
+            {loggedIn ? loggedInMsg : null}
+          </p>
+          <button
+            className={`${styles.input} nes-btn is-primary`}
+            type='submit'
+            disabled={loggedIn || disabled || loggingIn}
+            style={{
+              opacity: (loggedIn || disabled) ? 0 : 1
+            }}
+          >
+            Login to join the race!
+          </button>
+        </div>
       </form>
       <form
         onSubmit={logIn}
+        className={styles.bgContainer}
       >
+        <p
+          className={styles.bg}
+          style={{
+            opacity: (!loggedIn || disabled || loggingIn) ? 1 : 0
+          }}
+        >
+          {loggingIn ? loggingInMsg : null}
+        </p>
         <button
-          className={styles.input}
+          className={`${styles.input} nes-btn is-success`}
           type='submit'
           disabled={!loggedIn || disabled || loggingIn}
           style={{
             opacity: (!loggedIn || disabled || loggingIn) ? 0 : 1
           }}
         >
-          Try Again (Already logged in)
+          Try Again<br />
+          (Already logged in)
         </button>
       </form>
       <form
         onSubmit={logout}
       >
         <button
-          className={styles.input}
+          className={`${styles.input} nes-btn is-warning`}
           type='submit'
           disabled={!loggedIn || disabled || loggingIn}
           style={{

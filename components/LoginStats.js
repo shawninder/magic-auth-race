@@ -56,68 +56,6 @@ function LoginStats ({ logins, highlight, label, animate }) {
           />
         )
       })}
-      <Smiley
-        txt='😀'
-        x={toPercent(stats.min)}
-        y={20}
-      />
-      <text
-        x={toPercent(stats.min)}
-        y={20}
-        fill='white'
-        transform='translate(12, 5)'
-      >
-        {toSec(stats.min)}{secondsLabel}
-      </text>
-      <text
-        x={toPercent(stats.min)}
-        y={20}
-        fill='chartreuse'
-        transform='translate(65, 5)'
-      >
-        High score!
-      </text>
-      High score!
-      <Smiley
-        txt='😐'
-        x={toPercent(stats.avg)}
-        y={45}
-      />
-      <text
-        x={toPercent(stats.avg)}
-        y={45}
-        fill='white'
-        transform='translate(0, 20)'
-        textAnchor='middle'
-      >
-        {toSec(stats.avg)}{secondsLabel}
-      </text>
-      <text
-        x={toPercent(stats.avg)}
-        y={45}
-        fill='gold'
-        transform='translate(30, 20)'
-        textAnchor='start'
-      >
-        (world average)
-      </text>
-      <Smiley
-        txt='🤫'
-        x={toPercent(stats.max)}
-        y={80}
-        correction={{
-          x: -10
-        }}
-      />
-      <text
-        x={toPercent(stats.max)}
-        y={80}
-        fill='tomato'
-        transform='translate(-20, 5)'
-        textAnchor='end'
-      >
-        {toSec(stats.max)}{secondsLabel}...
-      </text>
       <g
         className={styles.highlight}
         style={{
@@ -133,18 +71,91 @@ function LoginStats ({ logins, highlight, label, animate }) {
           opacity={0.8}
         />
         <text
+          className={styles.overlay}
           x={0}
           y={90}
           fill='deepskyblue'
           style={{
             transform: 'translateX(0.8rem)',
-            fontSize: 'larger',
-            textShadow: '3px 1px 3px mediumorchid'
+            fontSize: 'larger'
           }}
         >
           {label}
         </text>
       </g>
+      <Smiley
+        txt='😀'
+        x={toPercent(stats.min)}
+        y={20}
+        correction={{
+          x: 10
+        }}
+      />
+      <text
+        className={styles.overlay}
+        x={toPercent(stats.min)}
+        y={20}
+        fill='white'
+        transform='translate(28, 5)'
+        style={{
+          textShadow: '0px -1px 7px black'
+        }}
+      >
+        {toSec(stats.min)}{secondsLabel}
+      </text>
+      <text
+        className={styles.overlay}
+        x={toPercent(stats.min)}
+        y={20}
+        fill='chartreuse'
+        transform='translate(120, 5)'
+      >
+        High score!
+      </text>
+      High score!
+      <Smiley
+        txt='😐'
+        x={toPercent(stats.avg)}
+        y={50}
+      />
+      <text
+        className={styles.overlay}
+        x={toPercent(stats.avg)}
+        y={50}
+        fill='white'
+        transform='translate(15, 5)'
+        textAnchor='start'
+      >
+        {toSec(stats.avg)}{secondsLabel}
+      </text>
+      <text
+        className={styles.overlay}
+        x={toPercent(stats.avg)}
+        y={50}
+        fill='gold'
+        transform='translate(120, 5)'
+        textAnchor='start'
+      >
+        average
+      </text>
+      <Smiley
+        txt='🤫'
+        x={toPercent(stats.max)}
+        y={80}
+        correction={{
+          x: -20
+        }}
+      />
+      <text
+        className={styles.overlay}
+        x={toPercent(stats.max)}
+        y={80}
+        fill='tomato'
+        transform='translate(-30, 5)'
+        textAnchor='end'
+      >
+        {toSec(stats.max)}{secondsLabel}...
+      </text>
     </svg>
   )
 }
@@ -160,6 +171,7 @@ function Smiley ({ txt, x, y, correction = {} }) {
       fill='white'
       textAnchor='middle'
       transform={`translate(${cx}, ${cy})`}
+      fontSize='24px'
     >
       {txt}
     </text>

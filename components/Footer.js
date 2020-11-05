@@ -1,11 +1,15 @@
+import Image from 'next/image'
 import styles from '../styles/Footer.module.css'
+
+import { toAbsoluteUrl } from '../utils'
+
 import poweredBy from '../static/powered-by.json'
 
 export default function Footer () {
   return (
     <section className={styles.footer}>
-      Powered by{' '}
-      {poweredBy.map(({ href, img, alt, styles }, idx, all) => {
+      <h4>Powered by{' '}</h4>
+      {poweredBy.map(({ href, img, alt, width, height }, idx, all) => {
         return (
           <a
             key={href}
@@ -13,10 +17,11 @@ export default function Footer () {
             target='_blank'
             rel='noopener noreferrer'
           >
-            <img
-              src={img}
+            <Image
+              src={toAbsoluteUrl(img)}
               alt={alt}
-              style={styles}
+              width={width}
+              height={height}
             />
           </a>
         )

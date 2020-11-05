@@ -36,6 +36,7 @@ function Home ({ ssrLogins }) {
       <Head>
         <title>{title}</title>
         <link rel='icon' href='/favicon.ico' />
+        <meta name='theme-color' content='white' />
         <meta name='title' content={title} />
         <meta name='description' content='How fast is passwordless login? Login to join the race!' />
         <meta name='robots' content='index, follow' />
