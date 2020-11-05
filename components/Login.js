@@ -122,7 +122,10 @@ export default function Login ({
   }
 
   return (
-    <section className={styles.section}>
+    <section className={`${styles.section} nes-container with-title`}>
+      <p className='title'>
+        Join the race!
+      </p>
       <form
         onSubmit={logIn}
       >
@@ -157,7 +160,7 @@ export default function Login ({
               opacity: (loggedIn || disabled) ? 0 : 1
             }}
           >
-            Login to join the race!
+            Login
           </button>
         </div>
       </form>
