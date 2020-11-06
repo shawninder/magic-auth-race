@@ -27,7 +27,9 @@ export class Login {
       q.Paginate(
         q.Match(
           q.Index('all_logins')
-        )
+        ), {
+          size: 100000
+        }
       )
     )
   }
