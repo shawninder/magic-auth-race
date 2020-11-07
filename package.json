@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "analyze": "NODE_ANALYZE=true next start",
     "deploy": "vercel"
   },
   "dependencies": {
@@ -21,5 +22,8 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "swr": "^0.3.8-beta.2"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "^10.0.1"
   }
 }
