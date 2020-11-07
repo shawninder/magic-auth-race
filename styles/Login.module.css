@@ -1,13 +1,28 @@
+.section {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto !important;
+  padding: 1.5rem .8rem;
+  background: white;
+  box-shadow: 0 0 1rem black;
+}
+.section form {
+  width: 100%;
+}
 .label {
-  background: ghostwhite;
+  width: 100%;
 }
 .input {
   width: 100%;
-  max-width: 300px;
   padding: 8px 6px;
   opacity: 1;
-  transition: opacity 600ms ease;
+  transition-property: opacity, background-color, color, border-color;
+  transition-duration: 400ms;
+  transition-timing-function: ease;
   font-size: smaller;
+}
+.input::after {
+  transition: box-shadow 400ms ease;
 }
 
 .bgContainer {

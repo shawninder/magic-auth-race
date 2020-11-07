@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Magic } from 'magic-sdk'
 
 import styles from '../styles/Login.module.css'
@@ -6,16 +6,52 @@ import styles from '../styles/Login.module.css'
 const loggedInMsg = 'Logged in'
 const loggingInMsg = 'Logging in...'
 
+const emailFeedbacks = {
+  empty: 'is-error',
+  invalid: 'is-warning',
+  valid: 'is-success'
+}
+
 export default function Login ({
+  session = {},
   login,
-  disabled,
   loggedIn,
   setLoggedIn,
   on
 }) {
   const [loggingIn, setLoggingIn] = useState(false)
   const [, setSaving] = useState(false)
+  const [email, setEmail] = useState(session.email || '')
+  const [emailFeedback, setEmailFeedback] = useState(determineEmailFeedback(email))
+
   const emailRef = useRef(null)
+
+  function isEmail (str) {
+    const atIndex = str.indexOf('@')
+    if (atIndex === -1) {
+      return false
+    }
+    const lastDot = str.lastIndexOf('.')
+    if (lastDot < atIndex) {
+      return false
+    }
+    if (lastDot === str.length - 1) {
+      return false
+    }
+    return true
+  }
+  function determineEmailFeedback (str) {
+    if (isEmail(str)) {
+      return emailFeedbacks.valid
+    } else if (str === '') {
+      return emailFeedbacks.empty
+    } else {
+      return emailFeedbacks.invalid
+    }
+  }
+  useEffect(() => {
+    setEmailFeedback(determineEmailFeedback(email))
+  }, [email])
 
   async function logIn (event) {
     event.preventDefault()
@@ -121,6 +157,10 @@ export default function Login ({
     }
   }
 
+  const disableEmail = loggedIn || loggingIn
+  const disableLogin = loggedIn || loggingIn || emailFeedback !== 'is-success'
+  const showLogin = !loggedIn && !loggingIn
+
   return (
     <section className={`${styles.section} nes-container with-title`}>
       <p className='title'>
@@ -130,14 +170,18 @@ export default function Login ({
         onSubmit={logIn}
       >
         <label className={`${styles.label} nes-field`}>
+          Your email
           <input
-            className={`${styles.input} nes-input`}
+            className={`${styles.input} ${styles.email} nes-input ${emailFeedback} ${(disableEmail) ? 'is-disabled' : ''}`}
             name='email'
             type='email'
             placeholder='Your email'
             ref={emailRef}
-            disabled={loggedIn || disabled || loggingIn}
-            defaultValue={(login && login.email) || ''}
+            disabled={disableEmail}
+            defaultValue={email || ''}
+            onChange={(event) => {
+              setEmail(event.target.value)
+            }}
           />
         </label>
         <br />
@@ -147,17 +191,18 @@ export default function Login ({
           <p
             className={styles.bg}
             style={{
-              opacity: (loggedIn && !disabled && !loggingIn) ? 1 : 0
+              opacity: (!showLogin) ? 1 : 0
             }}
           >
             {loggedIn ? loggedInMsg : null}
+            {loggingIn ? loggingInMsg : null}
           </p>
           <button
-            className={`${styles.input} nes-btn is-primary`}
+            className={`${styles.input} nes-btn ${disableLogin ? 'is-disabled' : 'is-primary'}`}
             type='submit'
-            disabled={loggedIn || disabled || loggingIn}
+            disabled={disableLogin}
             style={{
-              opacity: (loggedIn || disabled) ? 0 : 1
+              opacity: (showLogin) ? 1 : 0
             }}
           >
             Login
@@ -165,38 +210,14 @@ export default function Login ({
         </div>
       </form>
       <form
-        onSubmit={logIn}
-        className={styles.bgContainer}
-      >
-        <p
-          className={styles.bg}
-          style={{
-            opacity: (!loggedIn || disabled || loggingIn) ? 1 : 0
-          }}
-        >
-          {loggingIn ? loggingInMsg : null}
-        </p>
-        <button
-          className={`${styles.input} nes-btn is-success`}
-          type='submit'
-          disabled={!loggedIn || disabled || loggingIn}
-          style={{
-            opacity: (!loggedIn || disabled || loggingIn) ? 0 : 1
-          }}
-        >
-          Try Again<br />
-          (Already logged in)
-        </button>
-      </form>
-      <form
         onSubmit={logout}
       >
         <button
           className={`${styles.input} nes-btn is-warning`}
           type='submit'
-          disabled={!loggedIn || disabled || loggingIn}
+          disabled={!loggedIn || loggingIn}
           style={{
-            opacity: (!loggedIn || disabled || loggingIn) ? 0 : 1
+            opacity: (!loggedIn || loggingIn) ? 0 : 1
           }}
         >
           Logout
