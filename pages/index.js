@@ -15,6 +15,7 @@ import useLogins from '../use/logins'
 import useTimer from '../use/timer'
 
 import styles from '../styles/Home.module.css'
+import statStyles from '../styles/Stats.module.css'
 
 function Home ({ ssrLogins, session }) {
   const { logins, mutate: mutateLogins } = useLogins(ssrLogins)
@@ -26,6 +27,29 @@ function Home ({ ssrLogins, session }) {
   const title = 'Magic Auth Race!'
 
   const loginErrors = Object.keys(loginErr)
+
+  const stats = logins.reduce((_stats, time) => {
+    const newCount = _stats.count + 1
+    const newSum = _stats.sum + time
+
+    return {
+      count: _stats.count + 1,
+      sum: newSum,
+      min: time < _stats.min ? time : _stats.min,
+      max: time > _stats.max ? time : _stats.max,
+      avg: newSum / newCount
+    }
+  }, {
+    count: 0,
+    sum: 0,
+    min: 9999999999,
+    max: 0,
+    avg: 0,
+    std: 0
+  })
+  stats.std = Math.sqrt(logins.reduce((std, time) => {
+    return (time - stats.avg) * (time - stats.avg) / stats.count
+  }, 0))
 
   function addLogin (login) {
     mutateLogins((logins) => {
@@ -61,6 +85,7 @@ function Home ({ ssrLogins, session }) {
         <section className={styles.leaderboard}>
           <Leaderboard
             logins={logins}
+            stats={stats}
             label={label}
             elapsed={elapsed}
           />
@@ -71,6 +96,15 @@ function Home ({ ssrLogins, session }) {
           <p className={`${styles.desc} nes-balloon`}>
             How fast can you login?
           </p>
+        </section>
+        <section className={statStyles.stats}>
+          <ul>
+            <li className={statStyles.count}>Count: {stats.count} logins</li>
+            <li className={statStyles.min}>Min: {Number.parseFloat(stats.min / 1000).toPrecision(3)}s</li>
+            <li className={statStyles.max}>Max: {Number.parseFloat(stats.max / 1000).toPrecision(3)}s</li>
+            <li className={statStyles.avg}>Average: {Number.parseFloat(stats.avg / 1000).toPrecision(3)}s</li>
+            <li className={statStyles.std}>Standard Deviation: {Number.parseFloat(stats.std / 1000).toPrecision(3)}s</li>
+          </ul>
         </section>
         <section className={styles.login}>
           <Login

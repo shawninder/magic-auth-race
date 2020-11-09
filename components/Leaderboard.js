@@ -4,7 +4,7 @@ import styles from '../styles/Leaderboard.module.css'
 
 // const secondsLabel = 's'
 
-function Leaderboard ({ logins, elapsed }) {
+function Leaderboard ({ logins, stats, elapsed }) {
   // function toPercent (val) {
   //   return `${100 * val / stats.max}%`
   // }
@@ -12,29 +12,6 @@ function Leaderboard ({ logins, elapsed }) {
   // function toSec (ms) {
   //   return Math.round(ms / 10) / 100
   // }
-
-  const stats = logins.reduce((_stats, time) => {
-    const newCount = _stats.count + 1
-    const newSum = _stats.sum + time
-
-    return {
-      count: _stats.count + 1,
-      sum: newSum,
-      min: time < _stats.min ? time : _stats.min,
-      max: time > _stats.max ? time : _stats.max,
-      avg: newSum / newCount
-    }
-  }, {
-    count: 0,
-    sum: 0,
-    min: 9999999999,
-    max: 0,
-    avg: 0,
-    std: 0
-  })
-  stats.std = Math.sqrt(logins.reduce((std, time) => {
-    return (time - stats.avg) * (time - stats.avg) / stats.count
-  }, 0))
 
   function X (x) {
     return x <= 0 ? 0 : Math.log(x)

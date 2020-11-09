@@ -1,0 +1,32 @@
+.stats {
+  font-size: 0.5rem;
+  text-shadow: 0 0 0.8rem black;
+  padding: 0 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.stats ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.count {
+  color: white;
+}
+
+.min {
+  color: chartreuse;
+}
+
+.max {
+  color: tomato;
+}
+
+.avg {
+  color: gold;
+}
+
+.std {
+  color: white;
+}
