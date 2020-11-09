@@ -6,7 +6,7 @@ import jsonFetcher from '../lib/jsonFetcher'
 
 import { toAbsoluteUrl } from '../utils'
 
-import Head from '../components/head'
+import Head from '../components/Head'
 import Leaderboard from '../components/Leaderboard'
 import Login from '../components/Login'
 import Footer from '../components/Footer'
