@@ -25,12 +25,22 @@ export class Login {
   async getAll () {
     return adminClient.query(
       q.Paginate(
-        q.Match(
-          q.Index('all_logins')
+        q.Filter(
+          q.Match(
+            q.Index('all_logins')
+          ),
+          q.Lambda(
+            'i',
+            q.Not(
+              q.Equals(
+                q.Var('i'),
+                0
+              )
+            )
+          )
         ), {
           size: 100000
-        }
-      )
+        })
     )
   }
 

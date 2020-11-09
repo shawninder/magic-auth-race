@@ -20,7 +20,6 @@ export default function Login ({
   on
 }) {
   const [loggingIn, setLoggingIn] = useState(false)
-  const [, setSaving] = useState(false)
   const [email, setEmail] = useState(session.email || '')
   const [emailFeedback, setEmailFeedback] = useState(determineEmailFeedback(email))
 
@@ -59,11 +58,7 @@ export default function Login ({
 
     setLoggingIn(true)
 
-    const time = {
-      startTime: Date.now()
-    }
-
-    on.startTime && on.startTime(time.startTime)
+    on.start && on.start()
 
     const auth = { magic: null, didToken: null }
     try {
@@ -88,10 +83,9 @@ export default function Login ({
       if (res.status === 200) {
         setLoggedIn(true)
         setLoggingIn(false)
-        time.endTime = Date.now()
-        time.duration = time.endTime - time.startTime
         const login = await res.text()
-        on.login && on.login({ login, duration: time.duration })
+        setLoggingIn(false)
+        return on.login && on.login({ auth, login, email })
       } else {
         setLoggingIn(false)
         return on.err && on.err({
@@ -105,35 +99,6 @@ export default function Login ({
       setLoggingIn(false)
       return on.err && on.err({ 'Login exception': err })
     }
-    setLoggingIn(false)
-    setSaving(true)
-    try {
-      const res = await window.fetch('/api/save', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${auth.didToken}`
-        },
-        body: JSON.stringify({ email, t: time.duration })
-      })
-
-      if (res.status === 201) {
-        setSaving(false)
-        on.save && on.save()
-      } else {
-        setSaving(false)
-        return on.err && on.err({
-          'Save error': {
-            status: res.status,
-            text: await res.text()
-          }
-        })
-      }
-    } catch (err) {
-      setSaving(false)
-      return on.err && on.err('Save exception', err)
-    }
-    on.done && on.done({ ...time })
   }
 
   async function logout (event) {

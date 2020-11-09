@@ -1,25 +1,27 @@
 import { useState } from 'react'
+import get from 'lodash.get'
+
+import { getSession } from '../lib/auth-cookies'
 import jsonFetcher from '../lib/jsonFetcher'
+
+import { toAbsoluteUrl } from '../utils'
+
 import Head from '../components/head'
 import Leaderboard from '../components/Leaderboard'
 import Login from '../components/Login'
 import Footer from '../components/Footer'
 
-import { toAbsoluteUrl } from '../utils'
-
 import useLogins from '../use/logins'
+import useTimer from '../use/timer'
 
 import styles from '../styles/Home.module.css'
 
-function Home ({ ssrLogins }) {
-  const { logins, loading: loginsLoading, mutate: mutateLogins } = useLogins(ssrLogins)
-
-  const [loggedIn, setLoggedIn] = useState(false)
+function Home ({ ssrLogins, session }) {
+  const { logins, mutate: mutateLogins } = useLogins(ssrLogins)
+  const [loggedIn, setLoggedIn] = useState(get(session, 'email', false))
+  const { startTimer, stopTimer, resetTimer, elapsed } = useTimer()
   const [loginErr, setLoginErr] = useState({})
-
-  const [highlight, setHighlight] = useState(0)
   const [label, setLabel] = useState(null)
-  const [animate, setAnimate] = useState(false)
 
   const title = 'Magic Auth Race!'
 
@@ -29,6 +31,12 @@ function Home ({ ssrLogins }) {
     mutateLogins((logins) => {
       return logins && logins.concat([login])
     }, false)
+  }
+
+  function handleErr (err) {
+    resetTimer()
+    setLabel('')
+    setLoginErr(err)
   }
 
   return (
@@ -50,59 +58,63 @@ function Home ({ ssrLogins }) {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.welcome}>Magic Auth Race</h1>
-
-        <p className={styles.desc}>
-          How fast can you login?
-        </p>
         <section className={styles.leaderboard}>
           <Leaderboard
-            initialized={logins && !loginsLoading}
-            loading={loginsLoading}
             logins={logins}
-            highlight={highlight}
             label={label}
-            animate={animate}
+            elapsed={elapsed}
           />
+        </section>
+        <section className={styles.header}>
+          <h1 className={`${styles.welcome} title`}>Magic Auth Race</h1>
+
+          <p className={`${styles.desc} nes-balloon`}>
+            How fast can you login?
+          </p>
         </section>
         <section className={styles.login}>
           <Login
+            session={session}
             loggedIn={loggedIn}
             setLoggedIn={setLoggedIn}
             on={{
-              startTime: () => {
-                setHighlight(0)
-                setAnimate(false)
-                setLabel('')
-                setTimeout(() => {
-                  setAnimate(true)
-                  setTimeout(() => {
-                    setHighlight('100%')
-                  }, 200)
-                }, 10)
-              },
-              login: ({ duration }) => {
-                console.log('Logged in')
-                setHighlight(duration)
-                setAnimate(false)
+              start: startTimer,
+              login: async ({ auth, login, email }) => {
+                const duration = stopTimer()
+                console.log('Logged in', duration)
                 setLabel(`Your time: ${duration}ms`)
                 addLogin(duration)
+                try {
+                  const res = await window.fetch('/api/save', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${auth.didToken}`
+                    },
+                    body: JSON.stringify({ email, t: duration })
+                  })
+
+                  if (res.status === 201) {
+                    console.log('Saved')
+                  } else {
+                    return setLoginErr({
+                      'Save error': {
+                        status: res.status,
+                        text: await res.text()
+                      }
+                    })
+                  }
+                } catch (err) {
+                  return handleErr(err)
+                }
               },
               logout: () => {
-                setHighlight(0)
-                setAnimate(false)
+                resetTimer()
                 setLabel('')
                 console.log('Logged out')
+                setLoginErr({})
               },
-              save: () => {
-                console.log('Saved')
-              },
-              err: (err) => {
-                setHighlight(0)
-                setAnimate(false)
-                setLabel('')
-                setLoginErr(err)
-              }
+              err: handleErr
             }}
           />
           {loginErrors.length > 0 ? (
@@ -127,11 +139,22 @@ function Home ({ ssrLogins }) {
   )
 }
 
-Home.getInitialProps = async () => {
-  const fetcher = jsonFetcher()
-  const ssrLogins = await fetcher(toAbsoluteUrl('/api/logins'))
+Home.getInitialProps = async (ctx) => {
+  const fetch = jsonFetcher()
+  const todo = [
+    fetch(toAbsoluteUrl('/api/logins'))
+  ]
+  if (ctx.req) {
+    todo.push(getSession(ctx.req))
+  }
+
+  const [
+    ssrLogins,
+    session
+  ] = await Promise.all(todo)
   return {
-    ssrLogins
+    ssrLogins,
+    session
   }
 }
 export default Home

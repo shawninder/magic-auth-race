@@ -6,17 +6,23 @@ import { Login } from '../../models/login'
 const handlers = {
   GET: async (req, res) => {
     const { token, issuer } = await getSession(req)
-    const loginModel = new Login()
 
-    await Promise.all([
-      magic.users.logoutByIssuer(issuer),
-      loginModel.invalidateFaunaDBToken(token)
-    ])
+    const loginModel = new Login(token)
 
+    try {
+      await Promise.all([
+        magic.users.logoutByIssuer(issuer),
+        loginModel.invalidateFaunaDBToken(token)
+      ])
+    } catch (ex) {
+      if (ex.name === 'Unauthorized') {
+        // ignore
+      } else {
+        console.error('Logout error', ex)
+      }
+    }
     removeSession(res)
-
-    res.writeHead(302)
-    res.end()
+    res.status(302).end()
   }
 }
 

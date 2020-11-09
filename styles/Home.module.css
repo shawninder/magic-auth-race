@@ -1,5 +1,28 @@
+.container {
+  display: grid;
+  grid-template-areas:
+    "main"
+    "footer";
+  min-height: 100vh;
+}
+
 .main {
-  padding: 5rem 0;
+  grid-area: main;
+  align-self: end;
+  padding: 2rem 0 0 0;
+}
+
+.header {
+  text-align: center;
+}
+
+.footer {
+  grid-area: footer;
+  align-self: end;
+  padding-bottom: 1rem;
+  background: white;
+  border: 0 solid black;
+  box-shadow: 0 -3px 30px black;
 }
 
 .welcome,
@@ -10,18 +33,30 @@
   text-align: center;
 }
 
+
+
 .welcome {
-  margin: 0;
-  line-height: var(--welcome-thickness);
+  color: white;
+  text-shadow: 0 0 1rem black;
+}
+.desc {
+  box-shadow: 0 0 1rem black;
+  font-size: 0.8rem;
+  margin: 3rem 0;
 }
 
-.desc {
-  font-size: 1.5rem;
-  line-height: var(--desc-thickness);
+.login {
+
 }
 
 .leaderboard {
-  height: 200px;
+  margin-bottom: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
 .errors {
